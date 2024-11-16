@@ -9,6 +9,7 @@ import (
 	"metalbanddb/pkg/handlers"
 	"metalbanddb/pkg/services"
 	"github.com/gorilla/mux"
+	corshandlers "github.com/gorilla/handlers"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -40,7 +41,17 @@ func main() {
 	// Definir las rutas
 	r.HandleFunc("/api/bands/{name}/lastfm", handlers.GetBandFromLastFM(db, services.FetchBandInfoFromLastFM)).Methods("GET")
 
+	// Habilitar CORS
+    corsHandler := corshandlers.CORS(
+        corshandlers.AllowedOrigins([]string{
+			"http://localhost:8080",     // Permite localhost
+        	"http://192.168.1.147:8080", // Permite la IP local	
+		}), // Especifica el origen de tu frontend
+        corshandlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}),
+        corshandlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+    )(r)
+
 	// Iniciar el servidor
 	fmt.Println("Servidor corriendo en http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":8080", corsHandler))
 }
