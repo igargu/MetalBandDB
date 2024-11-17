@@ -16,7 +16,7 @@ import (
 
 func main() {
 	// Cargar las variables de entorno desde el archivo .env
-	err := godotenv.Load() 
+	err := godotenv.Load("../.env") 
 	if err != nil {
 		log.Fatal("Error cargando archivo .env")
 	}
@@ -27,8 +27,20 @@ func main() {
 		log.Fatal("La API Key de Last.fm no está configurada")
 	}
 
+	// Obtener las credenciales de la base de datos desde las variables de entorno
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+	dbSSLMode := os.Getenv("DB_SSLMODE")
+
+	if dbUser == "" || dbPassword == "" || dbName == "" || dbSSLMode == "" {
+		log.Fatal("Las credenciales de la base de datos no están configuradas correctamente")
+	}
+
+	// Construir la cadena de conexión a la base de datos
+	connStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s", dbUser, dbPassword, dbName, dbSSLMode)
+	
 	// Conectar a la base de datos
-	connStr := "user=postgres dbname=metal_bands_db sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("Error al conectar a la base de datos: ", err)

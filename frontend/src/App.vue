@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div class="p-2">
     <h1>MetalBandDB</h1>
     <BandInfo />
   </div>
@@ -15,11 +15,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
