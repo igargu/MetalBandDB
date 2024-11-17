@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"log"
 )
 
 // Esta función consulta la API de Last.fm para obtener información de la banda
@@ -19,9 +18,6 @@ func FetchBandInfoFromLastFM(bandName string) (map[string]interface{}, error) {
 	// Construir la URL para la API de Last.fm
 	url := fmt.Sprintf("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=%s&api_key=%s&format=json", bandName, apiKey)
 
-	// Log de la URL que estamos utilizando para hacer la solicitud
-	log.Printf("Haciendo solicitud a Last.fm con la URL: %s", url)
-
 	// Hacer la solicitud HTTP a la API
 	resp, err := http.Get(url)
 	if err != nil {
@@ -31,13 +27,8 @@ func FetchBandInfoFromLastFM(bandName string) (map[string]interface{}, error) {
 
 	// Verificar si la respuesta es exitosa
 	if resp.StatusCode != 200 {
-		// Log del status code recibido
-		log.Printf("Error en la respuesta de la API: status code %d", resp.StatusCode)
 		return nil, fmt.Errorf("error en la respuesta de la API: status code %d", resp.StatusCode)
 	}
-
-	// Log de la respuesta recibida
-	log.Println("Respuesta recibida de Last.fm con éxito")
 
 	// Parsear la respuesta JSON
 	var result map[string]interface{}

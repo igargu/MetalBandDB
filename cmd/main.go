@@ -44,8 +44,8 @@ func main() {
 	// Habilitar CORS
     corsHandler := corshandlers.CORS(
         corshandlers.AllowedOrigins([]string{
-			"http://localhost:8080",     // Permite localhost
-        	"http://192.168.1.147:8080", // Permite la IP local	
+			"http://localhost:8081",     // Permite localhost
+        	"http://192.168.1.147:8081", // Permite la IP local	
 		}), // Especifica el origen de tu frontend
         corshandlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}),
         corshandlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
